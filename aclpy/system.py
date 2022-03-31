@@ -4,4 +4,13 @@
 """
 
 class ArrowheadSystem(object):
-    pass
+
+    __slots__ = ["name", "address", "port", "pubkey"]
+
+    def __init__(self, name: str, address: str, port: int, pubkey: str = ""):
+        super(self, ArrowheadSystem).__init__()
+
+        self.name = name
+        self.address = address
+        self.port = port
+        self.pubkey = pubkey
