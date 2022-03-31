@@ -19,3 +19,15 @@ class ConnectorABC(object):
 
     def orchestrate(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[int, str]:
         raise NotImplementedError
+
+
+    def register_service(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[int, str]:
+        raise NotImplementedError
+
+
+    def unregister_service(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[int, str]:
+        raise NotImplementedError
+
+
+    def register_system(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[int, str]:
+        raise NotImplementedError
