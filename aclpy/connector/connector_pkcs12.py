@@ -13,7 +13,7 @@ from aclpy.system import ArrowheadSystem
 
 class ArrowheadConnector(ConnectorABC):
 
-    def orchestration(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[int, str]:
+    def orchestrate(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[int, str]:
         res = requests_pkcs12.post(
             self.server.get_url("orchestrator") + "orchestration",
             json = message,
