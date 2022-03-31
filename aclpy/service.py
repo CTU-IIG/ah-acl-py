@@ -4,4 +4,11 @@
 """
 
 class ArrowheadService(object):
-    pass
+
+    __slots__ = ["name", "version"]
+
+    def __init__(self, name: str, version: int = 1):
+        super(self, ArrowheadService).__init__()
+
+        self.name = name
+        self.version = version
