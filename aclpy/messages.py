@@ -96,3 +96,47 @@ def build_register_system(
         "address": system.address,
         "port": system.port,
     }
+
+
+def build_orchestration_request(
+        interface: str,
+        system: ArrowheadSystem,
+        service: ArrowheadService,
+    ) -> Dict[str, any]:
+    return {
+        # *Who are we?
+        # Here we introduce the system asking the service.
+        # 'systemName' should be same as the name in the certificate.
+        #   - Otherwise, we get an SSL error.
+        # 'authenticationInfo' is required with 'CERTIFICATE' and 'TOKEN'
+        #   - For 'CERTIFICATE' I put there public key (so it should be asymmetric encryption).
+        # 'address' is an IP address / name? of the system
+        # 'port' is port used for the communication
+        "requesterSystem": {
+            "systemName": system.name,
+            "authenticationInfo": system.pubkey,
+            "address": system.address,
+            "port": system.port, # I assume that 0 means that we are not listening
+        },
+
+        # Dynamic Orchestration
+        #  - By passing this value we say that we want to find the counterpart dynamically,
+        #  skipping any pre-set configuration in the Orchestrator.
+        "orchestrationFlags": {
+            "overrideStore": "true"
+        },
+
+        # Which service do we want?
+        # Since the dynamic orchestration is enabled, this is mandatory*.
+        "requestedService": {
+            # Which interface we want to use?
+            #  - This is optional.
+            # In here, you can use 'interfaceRequirement' (string). But it is not supported by Orchestrator (anymore?).
+            "interfaceRequirements": [
+                interface
+            ],
+
+            # *What is the name of the service?
+            "serviceDefinitionRequirement": service.name,
+        }
+    }
