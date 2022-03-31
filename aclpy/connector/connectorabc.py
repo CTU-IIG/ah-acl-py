@@ -17,6 +17,5 @@ class ConnectorABC(object):
         self.server = server
 
 
-    @abstractmethod
-    def orchestration(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple(int, str):
-        pass
+    def orchestration(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[int, str]:
+        raise NotImplementedError
