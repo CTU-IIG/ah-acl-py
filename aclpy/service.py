@@ -8,7 +8,7 @@ class ArrowheadService(object):
     __slots__ = ["name", "version"]
 
     def __init__(self, name: str, version: int = 1):
-        super(self, ArrowheadService).__init__()
+        super(ArrowheadService, self).__init__()
 
         self.name = name
         self.version = version
