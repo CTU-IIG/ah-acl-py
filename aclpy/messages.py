@@ -62,8 +62,23 @@ def build_register_service(
     }
 
 
-def build_unregister_service():
-    pass
+def build_unregister_service(
+        system: ArrowheadSystem,
+        service: ArrowheadService,
+    ) -> Dict[str, any]:
+    return {
+        # *Who are we and what we want to unregister?
+        #  - We are allowed to unregister only our services.
+        # 'address': IP address of the provider
+        # 'port': port of the provider
+        # 'system_name': name of the provider
+        "address": system.address,
+        "port": system.port,
+        "system_name": system.name,
+
+        # *'service_definition': service to be removed
+        "service_definition": service.name,
+    }
 
 
 def build_register_system():
