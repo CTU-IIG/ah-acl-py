@@ -81,5 +81,18 @@ def build_unregister_service(
     }
 
 
-def build_register_system():
-    pass
+def build_register_system(
+        system: ArrowheadSystem,
+    ) -> Dict[str, any]:
+    return {
+        # *Who are we?
+        # 'systemName': name of the client
+        # 'authenticationInfo' is required with 'CERTIFICATE' and 'TOKEN'
+        #   - For 'CERTIFICATE' I put there public key (so it should be asymmetric encryption).
+        # 'address': IP address of the client
+        # 'port': port is not used for client, so can be zero (we are consuming)
+        "systemName": system.name,
+        "authenticationInfo": system.pubkey,
+        "address": system.address,
+        "port": system.port,
+    }
