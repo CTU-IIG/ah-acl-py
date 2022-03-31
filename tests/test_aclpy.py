@@ -7,6 +7,7 @@ import unittest
 
 import aclpy.client
 import aclpy.messages
+import aclpy.server
 import aclpy.service
 import aclpy.system
 
