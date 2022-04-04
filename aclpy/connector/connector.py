@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# connectorabc.py
+# connector.py
 """Abstract class for Connectors.
 """
 
@@ -25,10 +25,10 @@ def report_error(status_code: int, system_name: str, operation: str):
         print ("Unknown error with code %d when trying to %s with the %s." % (status_code, system_name, operation), file=sys.stderr)
 
 
-class ConnectorABC(object):
+class ArrowheadConnector(object):
 
     def __init__(self, server: ArrowheadServer):
-        super(ConnectorABC, self).__init__()
+        super(ArrowheadConnector, self).__init__()
 
         self.server = server
 

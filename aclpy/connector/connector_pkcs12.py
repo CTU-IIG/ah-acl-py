@@ -6,12 +6,12 @@ import requests_pkcs12
 
 from typing import Dict, Tuple
 
-from aclpy.connector.connectorabc import ConnectorABC
+from aclpy.connector.connector import ArrowheadConnector as ArrowheadConnectorBase
 from aclpy.server import ArrowheadServer
 from aclpy.client.client import ArrowheadClient
 
 
-class ArrowheadConnector(ConnectorABC):
+class ArrowheadConnector(ArrowheadConnectorBase):
 
     def _orchestrate(self, system: ArrowheadClient, message: Dict[str, any]) -> Tuple[int, Dict[str, any]]:
         res = requests_pkcs12.post(

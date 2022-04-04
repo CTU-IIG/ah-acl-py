@@ -7,7 +7,7 @@ import json
 
 from typing import Tuple, List
 
-from aclpy.connector.connectorabc import ConnectorABC
+from aclpy.connector.connector import ArrowheadConnector
 from aclpy.messages import *
 from aclpy.service import ArrowheadService
 from aclpy.system import ArrowheadSystem
@@ -15,7 +15,7 @@ from aclpy.system import ArrowheadSystem
 
 class ArrowheadClient(ArrowheadSystem):
 
-    def __init__(self, name: str, address: str, port: int, pubkey: str, connector: ConnectorABC):
+    def __init__(self, name: str, address: str, port: int, pubkey: str, connector: ArrowheadConnector):
         super(ArrowheadClient, self).__init__(name, address, port, pubkey)
 
         self.connector = connector
