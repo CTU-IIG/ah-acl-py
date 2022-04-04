@@ -17,19 +17,19 @@ class ConnectorABC(object):
         self.server = server
 
 
-    def orchestrate(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[int, str]:
+    def orchestrate(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[bool, int, Dict[str, any]]:
         raise NotImplementedError
 
 
-    def register_service(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[int, str]:
+    def register_service(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[bool, int, Dict[str, any]]:
         raise NotImplementedError
 
 
-    def unregister_service(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[int, str]:
+    def unregister_service(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[bool, int, Dict[str, any]]:
         raise NotImplementedError
 
 
-    def register_system(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[int, str]:
+    def register_system(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[bool, int, Dict[str, any]]:
         raise NotImplementedError
 
 
