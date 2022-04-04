@@ -5,6 +5,8 @@
 
 import json
 
+from typing import Tuple, List
+
 from aclpy.connector.connectorabc import ConnectorABC
 from aclpy.messages import *
 from aclpy.service import ArrowheadService
@@ -43,18 +45,23 @@ class ArrowheadClient(ArrowheadSystem):
         return success
 
 
-    def orchestrate(self, service: ArrowheadService) -> ArrowheadSystem:
+    def orchestrate(self, service: ArrowheadService) -> Tuple[bool, List[ArrowheadSystem]]:
         msg = build_orchestration_request("HTTP-INSECURE-JSON", self, service)
 
         success, status_code, payload = self.connector.orchestrate(self, msg)
 
         if not success:
-            return None
+            return (False, [])
         else:
-            system = payload.get("response")[0].get("provider")
-            return ArrowheadSystem(
-                address = system.get("address"),
-                port = system.get("port"),
-                name = system.get("name"),
-                pubkey = system.get("authenticationInfo"),
-            )
+            if len(payload.get("response")) > 0:
+                return (True, [
+                    ArrowheadSystem(
+                        address = system.get("provider").get("address"),
+                        port = system.get("provider").get("port"),
+                        name = system.get("provider").get("name"),
+                        pubkey = system.get("provider").get("authenticationInfo"),
+                    ) for system in payload.get("response")
+                ])
+
+            else:
+                return (True, [])
