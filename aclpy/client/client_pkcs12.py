@@ -3,19 +3,33 @@
 """Arrowhead Client class using .p12 certificates.
 """
 
-import json
-
-from aclpy.connector.connector_pkcs12 import ArrowheadConnector
-from aclpy.messages import *
-from aclpy.server import ArrowheadServer
-from aclpy.service import ArrowheadService
-from aclpy.system import ArrowheadSystem
 from aclpy.client.client import ArrowheadClient as ArrowheadClientBase
+from aclpy.connector.connector_pkcs12 import ArrowheadConnector
+from aclpy.server import ArrowheadServer
 
 
 class ArrowheadClient(ArrowheadClientBase):
+    """ArrowheadClient class for utilizing pkcs12 to communicate with Arrowhead Core.
 
-    def __init__(self, name: str, address: str, port: int, p12file: str, p12pass: str, pubfile: str, cafile: str, server: ArrowheadServer):
+    Additional attributes:
+    p12file (str) -- path to the .p12 certificate
+    p12pass (str) -- password to the .p12 certificate
+    pubfile (str) -- path to the public key .pub
+    cafile (str) -- path to the certificate authority file .ca
+    server (ArrowheadServer) -- configuration of the Arrowhead Core server
+    """
+
+    def __init__(self, *,
+            name: str,
+            address: str,
+            port: int,
+            p12file: str,
+            p12pass: str,
+            pubfile: str,
+            cafile: str,
+            server: ArrowheadServer
+    ):
+        """Initialize ArrowheadClient class."""
         # Read pubkey first
         with open(pubfile, "r") as f:
             pubkey = f.read()
