@@ -14,20 +14,25 @@ class ArrowheadServer(object):
         self.orchestrator = {
             "port": kwargs.get("orchestrator_port", 8441),
             "endpoint": "orchestrator",
+            "url": kwargs.get("orchestrator_url", None),
         }
         self.serviceregistry = {
             "port": kwargs.get("serviceregistry_port", 8443),
             "endpoint": "serviceregistry",
+            "url": kwargs.get("serviceregistry_url", None),
         }
         self.authorization = {
             "port": kwargs.get("authorization_port", 8445),
             "endpoint": "authorization",
+            "url": kwargs.get("authorization_url", None),
         }
 
 
     def get_url(self, core_service):
         if hasattr(self, core_service):
             service = getattr(self, core_service)
+            if service.get("url"):
+                return service.get("url")
             return "https://" + self.address + ":" + str(service.get("port")) + "/" + service.get("endpoint") + "/"
         else:
             raise ValueError("Undefined core service '%s'." % core_service)
