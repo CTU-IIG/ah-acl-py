@@ -28,15 +28,27 @@ class ArrowheadClient(ArrowheadSystem):
 
 
     def register_service(self, service: ArrowheadService) -> bool:
-        pass
+        msg = build_register_service("HTTP-INSECURE-JSON", self, service)
+
+        success, status_code, payload = self.connector.register_service(self, msg)
+
+        return success
 
 
     def unregister_service(self, service: ArrowheadService) -> bool:
-        pass
+        msg = build_unregister_service(self, service)
+
+        success, status_code, payload = self.connector.unregister_service(self, msg)
+
+        return success
 
 
     def register_system(self) -> bool:
-        pass
+        msg = build_register_system(self)
+
+        success, status_code, payload = self.connector.register_system(self, msg)
+
+        return success
 
 
     def orchestrate(self, service: ArrowheadService) -> ArrowheadSystem:
