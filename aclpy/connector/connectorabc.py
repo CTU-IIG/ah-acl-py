@@ -3,10 +3,26 @@
 """Abstract class for Connectors.
 """
 
+import sys
+
 from typing import Dict, Tuple
 
 from aclpy.server import ArrowheadServer
 from aclpy.system import ArrowheadSystem
+
+
+def report_error(status_code: int, system_name: str, operation: str):
+    if status_code == 400:
+        print ("Unable to %s." % operation, file=sys.stderr)
+
+    elif status_code == 401:
+        print ("Client is not authorized for communication with the %s." % system_name, file=sys.stderr)
+
+    elif status_code == 500:
+        print ("Core service %s is not available." % system_name, file=sys.stderr)
+
+    else:
+        print ("Unknown error with code %d when trying to %s with the %s." % (status_code, system_name, operation), file=sys.stderr)
 
 
 class ConnectorABC(object):
@@ -20,8 +36,10 @@ class ConnectorABC(object):
     def orchestrate(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[bool, int, Dict[str, any]]:
         status_code, payload = self._orchestrate(system, message)
 
-        if status_code >= 400:
-            print ("Client is not authorized for communication with the Orchestrator.", file=sys.stderr)
+        success = status_code < 300
+
+        if not success:
+            report_error(status_code, "Orchestrator", "orchestrate")
 
             return False, status_code, payload
 
@@ -41,8 +59,10 @@ class ConnectorABC(object):
     def register_service(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[bool, int, Dict[str, any]]:
         status_code, payload = self._register_service(system, message)
 
-        if status_code >= 400:
-            print ("Client is not authorized for communication with the Service Registry.", file=sys.stderr)
+        success = status_code < 300
+
+        if not success:
+            report_error(status_code, "Service Registry", "register service")
 
             return False, status_code, payload
 
@@ -58,8 +78,10 @@ class ConnectorABC(object):
     def unregister_service(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[bool, int, Dict[str, any]]:
         status_code, payload = self._unregister_service(system, message)
 
-        if status_code >= 400:
-            print ("Client is not authorized for communication with the Service Registry.", file=sys.stderr)
+        success = status_code < 300
+
+        if not success:
+            report_error(status_code, "Service Registry", "unregister service")
 
             return False, status_code, payload
 
@@ -69,8 +91,10 @@ class ConnectorABC(object):
     def register_system(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[bool, int, Dict[str, any]]:
         status_code, payload = self._register_system(system, message)
 
-        if status_code >= 400:
-            print ("Unable to create the system.", file=sys.stderr)
+        success = status_code < 300
+
+        if not success:
+            report_error(status_code, "Service Registry", "register system")
 
             return False, status_code, payload
 
