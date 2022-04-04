@@ -11,11 +11,12 @@ from aclpy.server import ArrowheadServer
 from aclpy.system import ArrowheadSystem
 
 
-def report_error(status_code: int, system_name: str, operation: str):
+def report_error(status_code: int, payload: Dict[str, any], system_name: str, operation: str):
     """Report an error from responses.
 
     Arguments:
     status_code (int) -- HTTP code from the response
+    payload (Dict[str, any]) -- data received from the response
     system_name (str) -- name of the core system
     operation (str) -- short description of the operation done
     """
@@ -30,6 +31,11 @@ def report_error(status_code: int, system_name: str, operation: str):
 
     else:
         print ("Unknown error with code %d when trying to %s with the %s." % (status_code, system_name, operation), file=sys.stderr)
+
+    if "errorMessage" in payload:
+        print ("Error code: %d" % payload.get("errorCode"))
+        print ("Exception: %s" % payload.get("exceptionType"))
+        print ("Message: %s" % payload.get("errorMessage"))
 
 
 class ArrowheadConnector(object):
@@ -65,7 +71,7 @@ class ArrowheadConnector(object):
         success = status_code < 300
 
         if not success:
-            report_error(status_code, "Orchestrator", "orchestrate")
+            report_error(status_code, payload, "Orchestrator", "orchestrate")
 
             return False, status_code, payload
 
@@ -101,7 +107,7 @@ class ArrowheadConnector(object):
         success = status_code < 300
 
         if not success:
-            report_error(status_code, "Service Registry", "register service")
+            report_error(status_code, payload, "Service Registry", "register service")
 
             return False, status_code, payload
 
@@ -133,7 +139,7 @@ class ArrowheadConnector(object):
         success = status_code < 300
 
         if not success:
-            report_error(status_code, "Service Registry", "unregister service")
+            report_error(status_code, payload, "Service Registry", "unregister service")
 
             return False, status_code, payload
 
@@ -159,7 +165,7 @@ class ArrowheadConnector(object):
         success = status_code < 300
 
         if not success:
-            report_error(status_code, "Service Registry", "register system")
+            report_error(status_code, payload, "Service Registry", "register system")
 
             return False, status_code, payload
 
