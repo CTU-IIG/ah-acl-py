@@ -42,13 +42,12 @@ class ArrowheadClient(ArrowheadSystem):
     def orchestrate(self, service: ArrowheadService) -> ArrowheadSystem:
         msg = build_orchestration_request("HTTP-INSECURE-JSON", self, service)
 
-        status_code, response = self.connector.orchestrate(self, msg)
+        success, status_code, payload = self.connector.orchestrate(self, msg)
 
-        if (status_code >= 400):
-            print ("Client is not authorized for communication with the Orchestrator.", file=sys.stderr)
+        if not success:
             return None
         else:
-            system = json.loads(response).get("response")[0].get("provider")
+            system = payload.get("response")[0].get("provider")
             return ArrowheadSystem(
                 address = system.get("address"),
                 port = system.get("port"),

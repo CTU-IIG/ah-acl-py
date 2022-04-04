@@ -18,7 +18,24 @@ class ConnectorABC(object):
 
 
     def orchestrate(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[bool, int, Dict[str, any]]:
-        raise NotImplementedError
+        status_code, payload = self._orchestrate(system, message)
+
+        if status_code >= 400:
+            print ("Client is not authorized for communication with the Orchestrator.", file=sys.stderr)
+
+            return False, status_code, payload
+
+        # List providers
+        print ("Found %d service providers." % len(payload["response"]))
+
+        for _i, provider in enumerate(payload["response"]):
+            print ("%d: %s:%d" % (
+                _i + 1,
+                provider["provider"]["address"],
+                provider["provider"]["port"])
+            )
+
+        return True, status_code, payload
 
 
     def register_service(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[bool, int, Dict[str, any]]:
