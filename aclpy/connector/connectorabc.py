@@ -66,11 +66,11 @@ class ConnectorABC(object):
 
             return False, status_code, payload
 
-        print ("Service registered with id %d using interface ID: %d. System ID: %d." % (
-            payload["serviceDefinition"]["id"],
+        print ("Service registered.\nInterface ID: %d\nProvider ID: %d\nService ID: %d" % (
             payload["interfaces"][0]["id"],
-            payload["provider"]["id"])
-        )
+            payload["provider"]["id"],
+            payload["serviceDefinition"]["id"],
+        ))
 
         return True, status_code, payload
 
