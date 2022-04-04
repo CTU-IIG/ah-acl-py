@@ -39,15 +39,44 @@ class ConnectorABC(object):
 
 
     def register_service(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[bool, int, Dict[str, any]]:
-        raise NotImplementedError
+        status_code, payload = self._register_service(system, message)
+
+        if status_code >= 400:
+            print ("Client is not authorized for communication with the Service Registry.", file=sys.stderr)
+
+            return False, status_code, payload
+
+        print ("Service registered with id %d using interface ID: %d. System ID: %d." % (
+            payload["serviceDefinition"]["id"],
+            payload["interfaces"][0]["id"],
+            payload["provider"]["id"])
+        )
+
+        return True, status_code, payload
 
 
     def unregister_service(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[bool, int, Dict[str, any]]:
-        raise NotImplementedError
+        status_code, payload = self._unregister_service(system, message)
+
+        if status_code >= 400:
+            print ("Client is not authorized for communication with the Service Registry.", file=sys.stderr)
+
+            return False, status_code, payload
+
+        return True, status_code, payload
 
 
     def register_system(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[bool, int, Dict[str, any]]:
-        raise NotImplementedError
+        status_code, payload = self._register_system(system, message)
+
+        if status_code >= 400:
+            print ("Unable to create the system.", file=sys.stderr)
+
+            return False, status_code, payload
+
+        print ("System registered with ID: %d." % text)
+
+        return True, status_code, payload
 
 
     ## Implemented by the subclass
