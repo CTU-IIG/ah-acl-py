@@ -41,7 +41,11 @@ class ArrowheadClient(ArrowheadSystem):
         Returns:
         success (bool) -- True when registration is successful
         """
-        msg = build_register_service("HTTP-INSECURE-JSON", self, service)
+        msg = build_register_service(
+            interface = "HTTP-INSECURE-JSON",
+            system = self,
+            service = service
+        )
 
         success, status_code, payload = self.connector.register_service(self, msg)
 
@@ -57,7 +61,10 @@ class ArrowheadClient(ArrowheadSystem):
         Returns:
         success (bool) -- True when unregistration is successful
         """
-        msg = build_unregister_service(self, service)
+        msg = build_unregister_service(
+            system = self,
+            service = service
+        )
 
         success, status_code, payload = self.connector.unregister_service(self, msg)
 
@@ -70,7 +77,7 @@ class ArrowheadClient(ArrowheadSystem):
         Returns:
         success (bool) -- True when registration is successful
         """
-        msg = build_register_system(self)
+        msg = build_register_system(system = self)
 
         success, status_code, payload = self.connector.register_system(self, msg)
 
@@ -87,7 +94,11 @@ class ArrowheadClient(ArrowheadSystem):
         success (bool) -- True when registration is successful
         providers (List[ArrowheadSystem]) -- list of available providers
         """
-        msg = build_orchestration_request("HTTP-INSECURE-JSON", self, service)
+        msg = build_orchestration_request(
+            interface = "HTTP-INSECURE-JSON",
+            system = self,
+            service = service
+        )
 
         success, status_code, payload = self.connector.orchestrate(self, msg)
 
