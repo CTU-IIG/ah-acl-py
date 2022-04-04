@@ -13,17 +13,9 @@ from aclpy.system import ArrowheadSystem
 
 class ArrowheadClient(ArrowheadSystem):
 
-    def __init__(self, name: str, address: str, port: int, p12file: str, p12pass: str, pubfile: str, cafile: str, connector: ConnectorABC):
-        # Read pubkey first
-        with open(pubfile, "r") as f:
-            pubkey = f.read()
+    def __init__(self, name: str, address: str, port: int, pubkey: str, connector: ConnectorABC):
+        super(ArrowheadClient, self).__init__(name, address, port, pubkey)
 
-        super(ArrowheadClient, self).__init__(name, address, port, "".join(pubkey.split("\n")[1:-2]))
-
-        self.p12file = p12file
-        self.p12pass = p12pass
-        self.pubfile = pubfile
-        self.cafile = cafile
         self.connector = connector
 
 

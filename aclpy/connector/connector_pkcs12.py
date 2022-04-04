@@ -8,7 +8,7 @@ from typing import Dict, Tuple
 
 from aclpy.connector.connectorabc import ConnectorABC
 from aclpy.server import ArrowheadServer
-from aclpy.client import ArrowheadClient
+from aclpy.client.client import ArrowheadClient
 
 
 class ArrowheadConnector(ConnectorABC):
