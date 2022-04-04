@@ -13,7 +13,7 @@ from aclpy.client import ArrowheadClient
 
 class ArrowheadConnector(ConnectorABC):
 
-    def orchestrate(self, system: ArrowheadClient, message: Dict[str, any]) -> Tuple[int, str]:
+    def _orchestrate(self, system: ArrowheadClient, message: Dict[str, any]) -> Tuple[int, str]:
         res = requests_pkcs12.post(
             self.server.get_url("orchestrator") + "orchestration",
             json = message,
@@ -25,7 +25,7 @@ class ArrowheadConnector(ConnectorABC):
         return (res.status_code, res.text)
 
 
-    def register_service(self, system: ArrowheadClient, message: Dict[str, any]) -> Tuple[int, str]:
+    def _register_service(self, system: ArrowheadClient, message: Dict[str, any]) -> Tuple[int, str]:
         res = requests_pkcs12.post(
             self.server.get_url("serviceregistry") + "register",
             json = message,
@@ -37,7 +37,7 @@ class ArrowheadConnector(ConnectorABC):
         return (res.status_code, res.text)
 
 
-    def unregister_service(self, system: ArrowheadClient, message: Dict[str, any]) -> Tuple[int, str]:
+    def _unregister_service(self, system: ArrowheadClient, message: Dict[str, any]) -> Tuple[int, str]:
         res = requests_pkcs12.delete(
             self.server.get_url("serviceregistry")
                 + "unregister?"
@@ -52,7 +52,7 @@ class ArrowheadConnector(ConnectorABC):
         return (res.status_code, res.text)
 
 
-    def register_system(self, system: ArrowheadClient, message: Dict[str, any]) -> Tuple[int, str]:
+    def _register_system(self, system: ArrowheadClient, message: Dict[str, any]) -> Tuple[int, str]:
         res = requests_pkcs12.post(
             self.server.get_url("serviceregistry") + "register-system",
             json = message,

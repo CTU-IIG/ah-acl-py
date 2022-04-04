@@ -31,3 +31,20 @@ class ConnectorABC(object):
 
     def register_system(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[int, str]:
         raise NotImplementedError
+
+
+    ## Implemented by the subclass
+    def _orchestrate(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[int, str]:
+        raise NotImplementedError
+
+
+    def _register_service(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[int, str]:
+        raise NotImplementedError
+
+
+    def _unregister_service(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[int, str]:
+        raise NotImplementedError
+
+
+    def _register_system(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[int, str]:
+        raise NotImplementedError
