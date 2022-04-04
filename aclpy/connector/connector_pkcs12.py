@@ -49,7 +49,7 @@ class ArrowheadConnector(ConnectorABC):
             verify = system.cafile,
         )
 
-        return (res.status_code, res.json())
+        return (res.status_code, {})
 
 
     def _register_system(self, system: ArrowheadClient, message: Dict[str, any]) -> Tuple[int, Dict[str, any]]:
