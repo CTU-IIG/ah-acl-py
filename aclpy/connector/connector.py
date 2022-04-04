@@ -169,7 +169,7 @@ class ArrowheadConnector(object):
 
             return False, status_code, payload
 
-        print ("System registered with ID: %d." % text)
+        print ("System registered with ID: %d." % payload["id"])
 
         return True, status_code, payload
 
