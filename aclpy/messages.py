@@ -9,11 +9,21 @@ from aclpy.system import ArrowheadSystem
 from aclpy.service import ArrowheadService
 
 
-def build_register_service(
+def build_register_service(*,
         interface: str,
         system: ArrowheadSystem,
         service: ArrowheadService,
     ) -> Dict[str, any]:
+    """Build a message for registering a service.
+
+    Arguments:
+    interface (str) -- name of the interface used for the communication
+    system (ArrowheadSystem) -- system for attaching the service
+    service (ArrowheadService) -- service to be registered
+
+    Returns:
+    message (Dict[str, any])
+    """
     return {
         # *Which interface do we use?
         # The convention (name pattern is) PROTOCOL-SECURE/INSECURE-DATA_FORMAT
@@ -62,10 +72,19 @@ def build_register_service(
     }
 
 
-def build_unregister_service(
+def build_unregister_service(*,
         system: ArrowheadSystem,
         service: ArrowheadService,
     ) -> Dict[str, any]:
+    """Build a message for unregistering a service.
+
+    Arguments:
+    system (ArrowheadSystem) -- system with the service
+    service (ArrowheadService) -- service to be unregistered
+
+    Returns:
+    message (Dict[str, any])
+    """
     return {
         # *Who are we and what we want to unregister?
         #  - We are allowed to unregister only our services.
@@ -81,9 +100,17 @@ def build_unregister_service(
     }
 
 
-def build_register_system(
+def build_register_system(*,
         system: ArrowheadSystem,
     ) -> Dict[str, any]:
+    """Build a message for registering a system to Arrowhead Core.
+
+    Arguments:
+    system (ArrowheadSystem) -- system to be registered
+
+    Returns:
+    message (Dict[str, any])
+    """
     return {
         # *Who are we?
         # 'systemName': name of the client
@@ -98,11 +125,21 @@ def build_register_system(
     }
 
 
-def build_orchestration_request(
+def build_orchestration_request(*,
         interface: str,
         system: ArrowheadSystem,
         service: ArrowheadService,
     ) -> Dict[str, any]:
+    """Build a message for locating providers via orchestration.
+
+    Arguments:
+    interface (str) -- name of the interface requested for the communication
+    system (ArrowheadSystem) -- system requesting the orchestration
+    service (ArrowheadService) -- service to be located
+
+    Returns:
+    message (Dict[str, any])
+    """
     return {
         # *Who are we?
         # Here we introduce the system asking the service.
