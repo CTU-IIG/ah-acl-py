@@ -51,7 +51,7 @@ class ArrowheadService(object):
         return self.__id
 
     @id.setter
-    def id(self, new_id):
+    def id(self, new_id: int):
         self.__id = new_id
 
     @property
@@ -59,7 +59,7 @@ class ArrowheadService(object):
         return self.__created_at
 
     @created_at.setter
-    def created_at(self, new_value):
+    def created_at(self, new_value: str):
         self.__created_at = new_value
 
     @property
@@ -67,7 +67,7 @@ class ArrowheadService(object):
         return self.__updated_at
 
     @updated_at.setter
-    def updated_at(self, new_value):
+    def updated_at(self, new_value: str):
         self.__updated_at = new_value
 
 
@@ -81,7 +81,7 @@ class ArrowheadService(object):
         return self.created_at
 
     @createdAt.setter
-    def createdAt(self, new_value):
+    def createdAt(self, new_value: str):
         self.created_at = new_value
 
     @property
@@ -89,7 +89,7 @@ class ArrowheadService(object):
         return self.updated_at
 
     @updatedAt.setter
-    def updatedAt(self, new_value):
+    def updatedAt(self, new_value: str):
         self.updated_at = new_value
 
 
