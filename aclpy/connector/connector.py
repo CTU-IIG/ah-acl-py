@@ -29,25 +29,9 @@ class Error:
         self.error_message = kwargs.get("errorMessage")
 
 
-    def report_error(self, status_code: int, system_name: str, operation: str):
-        """Report an error from responses.
-
-        Arguments:
-        status_code (int) -- HTTP code from the response
-        system_name (str) -- name of the core system
-        operation (str) -- short description of the operation done
-        """
-        if status_code == 400:
-            print ("Unable to %s." % operation, file=sys.stderr)
-
-        elif status_code == 401:
-            print ("Client is not authorized for communication with the %s." % system_name, file=sys.stderr)
-
-        elif status_code == 500:
-            print ("Core service %s is not available." % system_name, file=sys.stderr)
-
-        else:
-            print ("Unknown error with code %d when trying to %s with the %s." % (status_code, system_name, operation), file=sys.stderr)
+    def report_error(self):
+        """Report this error."""
+        report_error(self.error_code, self.system_name, self.operation)
 
 
     def __str__(self):
