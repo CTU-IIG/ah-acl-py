@@ -11,31 +11,56 @@ from aclpy.server import ArrowheadServer
 from aclpy.system import ArrowheadSystem
 
 
-def report_error(status_code: int, payload: Dict[str, any], system_name: str, operation: str):
-    """Report an error from responses.
+class Error:
+    """Error class for storing information about error received from Arrowhead Core.
 
-    Arguments:
-    status_code (int) -- HTTP code from the response
-    payload (Dict[str, any]) -- data received from the response
-    system_name (str) -- name of the core system
-    operation (str) -- short description of the operation done
+    Attributes:
+    error_code (int) -- HTTP error code
+    exception_type (str) -- type of the exception raised from the Core
+    error_message (str) -- description of the error
     """
-    if status_code == 400:
-        print ("Unable to %s." % operation, file=sys.stderr)
+    __slots__ = ["error_code", "exception_type", "error_message"]
 
-    elif status_code == 401:
-        print ("Client is not authorized for communication with the %s." % system_name, file=sys.stderr)
 
-    elif status_code == 500:
-        print ("Core service %s is not available." % system_name, file=sys.stderr)
+    def __init__(self, **kwargs):
+        """Initialize Error class."""
+        self.error_code = kwargs.get("errorCode")
+        self.exception_type = kwargs.get("exceptionType")
+        self.error_message = kwargs.get("errorMessage")
 
-    else:
-        print ("Unknown error with code %d when trying to %s with the %s." % (status_code, system_name, operation), file=sys.stderr)
 
-    if "errorMessage" in payload:
-        print ("Error code: %d" % payload.get("errorCode"))
-        print ("Exception: %s" % payload.get("exceptionType"))
-        print ("Message: %s" % payload.get("errorMessage"))
+    def report_error(self, status_code: int, system_name: str, operation: str):
+        """Report an error from responses.
+
+        Arguments:
+        status_code (int) -- HTTP code from the response
+        system_name (str) -- name of the core system
+        operation (str) -- short description of the operation done
+        """
+        if status_code == 400:
+            print ("Unable to %s." % operation, file=sys.stderr)
+
+        elif status_code == 401:
+            print ("Client is not authorized for communication with the %s." % system_name, file=sys.stderr)
+
+        elif status_code == 500:
+            print ("Core service %s is not available." % system_name, file=sys.stderr)
+
+        else:
+            print ("Unknown error with code %d when trying to %s with the %s." % (status_code, system_name, operation), file=sys.stderr)
+
+
+    def __str__(self):
+        """Format the error as string.
+
+        Returns:
+        str -- error as a string
+        """
+        return "Error code: %d\nException: %s\nMessage: %s" % (
+            self.error_code,
+            self.exception_type,
+            self.error_message
+        )
 
 
 class ArrowheadConnector(object):
@@ -43,6 +68,7 @@ class ArrowheadConnector(object):
 
     Attributes:
     server (ArrowheadServer) -- configuration of the Arrowhead Core server
+    last_error (Error) -- last received error
     """
 
     def __init__(self, server: ArrowheadServer):
@@ -50,6 +76,7 @@ class ArrowheadConnector(object):
         super(ArrowheadConnector, self).__init__()
 
         self.server = server
+        self.last_error = None
 
 
     def orchestrate(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[bool, int, Dict[str, any]]:
@@ -71,7 +98,8 @@ class ArrowheadConnector(object):
         success = status_code < 300
 
         if not success:
-            report_error(status_code, payload, "Orchestrator", "orchestrate")
+            self.last_error = Error(**payload)
+            self.last_error.report_error(status_code, "Orchestrator", "orchestrate")
 
             return False, status_code, payload
 
@@ -107,7 +135,8 @@ class ArrowheadConnector(object):
         success = status_code < 300
 
         if not success:
-            report_error(status_code, payload, "Service Registry", "register service")
+            self.last_error = Error(**payload)
+            self.last_error.report_error(status_code, "Service Registry", "register service")
 
             return False, status_code, payload
 
@@ -139,7 +168,8 @@ class ArrowheadConnector(object):
         success = status_code < 300
 
         if not success:
-            report_error(status_code, payload, "Service Registry", "unregister service")
+            self.last_error = Error(**payload)
+            self.last_error.report_error(status_code, "Service Registry", "unregister service")
 
             return False, status_code, payload
 
@@ -165,7 +195,8 @@ class ArrowheadConnector(object):
         success = status_code < 300
 
         if not success:
-            report_error(status_code, payload, "Service Registry", "register system")
+            self.last_error = Error(**payload)
+            self.last_error.report_error(status_code, "Service Registry", "register system")
 
             return False, status_code, payload
 
