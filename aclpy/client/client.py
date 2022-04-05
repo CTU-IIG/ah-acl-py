@@ -32,6 +32,11 @@ class ArrowheadClient(ArrowheadSystem):
         self.connector = connector
 
 
+    @property
+    def last_error(self):
+        return self.connector.last_error
+
+
     def register_service(self, service: ArrowheadService) -> bool:
         """Register a service for this client.
 
