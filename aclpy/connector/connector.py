@@ -107,8 +107,7 @@ class ArrowheadConnector(object):
         success = status_code < 300
 
         if not success:
-            self.last_error = Error(**payload)
-            self.last_error.report_error(status_code, "Orchestrator", "orchestrate")
+            self.last_error = Error(**payload, system_name = "Orchestrator", operation = "orchestrate")
 
             return False, status_code, payload
 
@@ -144,8 +143,7 @@ class ArrowheadConnector(object):
         success = status_code < 300
 
         if not success:
-            self.last_error = Error(**payload)
-            self.last_error.report_error(status_code, "Service Registry", "register service")
+            self.last_error = Error(**payload, system_name = "Service Registry", operation = "register service")
 
             return False, status_code, payload
 
@@ -177,8 +175,7 @@ class ArrowheadConnector(object):
         success = status_code < 300
 
         if not success:
-            self.last_error = Error(**payload)
-            self.last_error.report_error(status_code, "Service Registry", "unregister service")
+            self.last_error = Error(**payload, system_name = "Service Registry", operation = "unregister service")
 
             return False, status_code, payload
 
@@ -204,8 +201,7 @@ class ArrowheadConnector(object):
         success = status_code < 300
 
         if not success:
-            self.last_error = Error(**payload)
-            self.last_error.report_error(status_code, "Service Registry", "register system")
+            self.last_error = Error(**payload, system_name = "Service Registry", operation = "register system")
 
             return False, status_code, payload
 
