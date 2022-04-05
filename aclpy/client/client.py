@@ -89,6 +89,9 @@ class ArrowheadClient(ArrowheadSystem):
 
         success, status_code, payload = self.connector.register_system(self, msg)
 
+        if success:
+            self.update(**payload)
+
         return success
 
 
