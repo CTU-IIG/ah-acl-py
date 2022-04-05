@@ -9,6 +9,7 @@ Based on [ah-echo-py](https://github.com/jara001/ah-echo-py).
 - [Usage](#usage)
   - [Arrowhead Server](#arrowheadserver)
   - [Arrowhead Service](#arrowheadservice)
+  - [Arrowhead Interface](#arrowheadinterface)
   - [Arrowhead Client](#arrowheadclient)
 - [Example](#example)
 
@@ -42,6 +43,11 @@ wagon install aclpy-*.wgn
     - [X] Orchestrate
   - [ ] Methods
     - [X] PKCS#12
+- [ ] ArrowheadInterface
+  - [ ] Check validity of interface
+  - [X] Created at
+  - [X] Updated at
+  - [X] Id
 - [ ] ArrowheadServer
   - [X] Set IP address
   - [ ] Core Systems features
@@ -60,6 +66,9 @@ wagon install aclpy-*.wgn
   - [ ] URI
   - [ ] End of Validity
   - [ ] Metadata
+  - [X] Created at
+  - [X] Updated at
+  - [X] Id
 - [ ] ArrowheadSystem
   - [X] Name
   - [X] Address
@@ -67,6 +76,10 @@ wagon install aclpy-*.wgn
   - [ ] AuthenticationInfo
     - [X] Public key
     - [ ] Token
+  - [X] Created at
+  - [X] Updated at
+  - [X] Id
+  - [X] Interfaces
 
 
 ## Usage
@@ -91,6 +104,17 @@ service = ArrowheadService(
 ```
 
 
+### ArrowheadInterface
+
+```python
+from aclpy.interface import ArrowheadInterface
+
+interface = ArrowheadInterface(
+    name = "NAME_OF_THE_INTERFACE",
+)
+```
+
+
 ### ArrowheadClient
 _PKCS#12 version_
 
@@ -107,6 +131,9 @@ client = ArrowheadClient(
     cafile = "PATH_TO_THE_CA_FILE",
     server = server,
 )
+
+# Add an interface
+client.interfaces.append(interface)
 
 # Register a service
 success = client.register_service(service)
@@ -131,6 +158,9 @@ from aclpy.server import ArrowheadServer
 # Client / system configuration
 from aclpy.client.client_pkcs12 import ArrowheadClient
 
+# Interface configuration
+from aclpy.interface import ArrowheadInterface
+
 # Service configuration
 from aclpy.service import ArrowheadService
 
@@ -138,6 +168,10 @@ from aclpy.service import ArrowheadService
 # Define the components
 server = ArrowheadServer(
     #address = "127.0.0.1",     # Localhost is default
+)
+
+interface = ArrowheadInterface(
+    name = "HTTP-INSECURE-JSON",
 )
 
 client = ArrowheadClient(
@@ -149,6 +183,7 @@ client = ArrowheadClient(
     p12pass = "1111111",        # Password
     cafile = "sysop.ca",        # Path to .ca file
     server = server,
+    interfaces = [interface],
 )
 
 service = ArrowheadService(

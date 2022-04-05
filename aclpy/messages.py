@@ -3,21 +3,22 @@
 """Definition of various Arrowhead-related messages.
 """
 
-from typing import Dict
+from typing import Dict, List
 
+from aclpy.interface import ArrowheadInterface
 from aclpy.system import ArrowheadSystem
 from aclpy.service import ArrowheadService
 
 
 def build_register_service(*,
-        interface: str,
+        interfaces: List[ArrowheadInterface],
         system: ArrowheadSystem,
         service: ArrowheadService,
     ) -> Dict[str, any]:
     """Build a message for registering a service.
 
     Arguments:
-    interface (str) -- name of the interface used for the communication
+    interface (List[ArrowheadInterface]) -- list of the interfaces used for the communication
     system (ArrowheadSystem) -- system for attaching the service
     service (ArrowheadService) -- service to be registered
 
@@ -29,7 +30,7 @@ def build_register_service(*,
         # The convention (name pattern is) PROTOCOL-SECURE/INSECURE-DATA_FORMAT
         # I assume that SECURE = encrypted by the TOKEN/CERTIFICATE
         "interfaces": [
-            interface,
+            interface.name for interface in interfaces
         ],
 
         # *Who are we?
@@ -126,14 +127,14 @@ def build_register_system(*,
 
 
 def build_orchestration_request(*,
-        interface: str,
+        interfaces: List[ArrowheadInterface],
         system: ArrowheadSystem,
         service: ArrowheadService,
     ) -> Dict[str, any]:
     """Build a message for locating providers via orchestration.
 
     Arguments:
-    interface (str) -- name of the interface requested for the communication
+    interface (List[ArrowheadInterface]) -- list of the interfaces requested for the communication
     system (ArrowheadSystem) -- system requesting the orchestration
     service (ArrowheadService) -- service to be located
 
@@ -170,7 +171,7 @@ def build_orchestration_request(*,
             #  - This is optional.
             # In here, you can use 'interfaceRequirement' (string). But it is not supported by Orchestrator (anymore?).
             "interfaceRequirements": [
-                interface
+                interface.name for interface in interfaces
             ],
 
             # *What is the name of the service?

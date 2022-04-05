@@ -32,6 +32,11 @@ class ArrowheadClient(ArrowheadSystem):
         self.connector = connector
 
 
+    @property
+    def last_error(self):
+        return self.connector.last_error
+
+
     def register_service(self, service: ArrowheadService) -> bool:
         """Register a service for this client.
 
@@ -42,12 +47,21 @@ class ArrowheadClient(ArrowheadSystem):
         success (bool) -- True when registration is successful
         """
         msg = build_register_service(
-            interface = "HTTP-INSECURE-JSON",
+            interfaces = self.interfaces,
             system = self,
             service = service
         )
 
         success, status_code, payload = self.connector.register_service(self, msg)
+
+        if success:
+            self.update(**payload.get("provider"))
+            service.update(**payload.get("serviceDefinition"))
+
+            for interface in self.interfaces:
+                for _interface in payload.get("interfaces"):
+                    if interface.name == _interface.get("interfaceName"):
+                        interface.update(**_interface)
 
         return success
 
@@ -81,6 +95,9 @@ class ArrowheadClient(ArrowheadSystem):
 
         success, status_code, payload = self.connector.register_system(self, msg)
 
+        if success:
+            self.update(**payload)
+
         return success
 
 
@@ -95,7 +112,7 @@ class ArrowheadClient(ArrowheadSystem):
         providers (List[ArrowheadSystem]) -- list of available providers
         """
         msg = build_orchestration_request(
-            interface = "HTTP-INSECURE-JSON",
+            interfaces = self.interfaces,
             system = self,
             service = service
         )
@@ -110,8 +127,11 @@ class ArrowheadClient(ArrowheadSystem):
                     ArrowheadSystem(
                         address = system.get("provider").get("address"),
                         port = system.get("provider").get("port"),
-                        name = system.get("provider").get("name"),
+                        name = system.get("provider").get("systemName"),
                         pubkey = system.get("provider").get("authenticationInfo"),
+                        id = system.get("provider").get("id"),
+                        created_at = system.get("provider").get("createdAt"),
+                        updated_at = system.get("provider").get("updatedAt"),
                     ) for system in payload.get("response")
                 ])
 

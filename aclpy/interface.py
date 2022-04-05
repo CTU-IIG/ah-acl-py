@@ -1,35 +1,32 @@
 #!/usr/bin/env python3
-# service.py
-"""Arrowhead service definition for the library.
+# interface.py
+"""Arrowhead interface definition for the library.
 """
 
-class ArrowheadService(object):
-    """ArrowheadService class to store configuration about a service.
+class ArrowheadInterface(object):
+    """ArrowheadInterface class to store configuration about an interface.
 
     Attributes:
-    name (str) -- name of the service
-    version (int) -- version of the service, 1 by default
-    id (int) -- identification number of the service, default -1 (not known)
-    created_at (str) -- timestamp of service creation, default ""
-    updated_at (str) -- timestamp of the last service update, default ""
+    name (str) -- name of the interface
+    id (int) -- identification number of the interface, default -1 (not known)
+    created_at (str) -- timestamp of interface creation, default ""
+    updated_at (str) -- timestamp of the last interface update, default ""
 
     Note: Timestamp is given as '%Y-%m-%d %H-%M-%S'.
     """
 
-    __slots__ = ["__name", "__version", "__id", "__created_at", "__updated_at"]
+    __slots__ = ["__name", "__id", "__created_at", "__updated_at"]
 
     def __init__(self, *,
             name: str,
-            version: int = 1,
             id: int = -1,
             created_at: str = "",
             updated_at: str = "",
     ):
-        """Initialize ArrowheadService class."""
-        super(ArrowheadService, self).__init__()
+        """Initialize ArrowheadInterface class."""
+        super(ArrowheadInterface, self).__init__()
 
         self.__name = name
-        self.__version = version
         self.__id = id
         self.__created_at = created_at
         self.__updated_at = updated_at
@@ -39,10 +36,6 @@ class ArrowheadService(object):
     @property
     def name(self):
         return self.__name
-
-    @property
-    def version(self):
-        return self.__version
 
 
     # Attributes RW
@@ -73,7 +66,7 @@ class ArrowheadService(object):
 
     # Attributes AHCore
     @property
-    def serviceDefinition(self):
+    def interfaceName(self):
         return self.name
 
     @property
@@ -95,7 +88,7 @@ class ArrowheadService(object):
 
 
     def update(self, **message):
-        """Update the service information using data received from the Arrowhead Core."""
+        """Update the interface information using data received from the Arrowhead Core."""
         for key, value in message.items():
             try:
                 setattr(self, key, value)

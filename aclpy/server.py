@@ -54,7 +54,7 @@ class ArrowheadServer(object):
         }
 
 
-    def get_url(self, core_system):
+    def get_url(self, core_system: str):
         """Get URL for the 'core_system'.
 
         Arguments:

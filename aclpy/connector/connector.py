@@ -11,7 +11,47 @@ from aclpy.server import ArrowheadServer
 from aclpy.system import ArrowheadSystem
 
 
-def report_error(status_code: int, system_name: str, operation: str):
+class Error:
+    """Error class for storing information about error received from Arrowhead Core.
+
+    Attributes:
+    error_code (int) -- HTTP error code
+    exception_type (str) -- type of the exception raised from the Core
+    error_message (str) -- description of the error
+    system_name (str) -- name of the system that sent the error
+    operation (str) -- short description of the operation done
+    """
+    __slots__ = ["error_code", "exception_type", "error_message", "system_name", "operation"]
+
+
+    def __init__(self, **kwargs):
+        """Initialize Error class."""
+        self.error_code = kwargs.get("errorCode")
+        self.exception_type = kwargs.get("exceptionType")
+        self.error_message = kwargs.get("errorMessage")
+        self.system_name = kwargs.get("system_name")
+        self.operation = kwargs.get("operation")
+
+
+    def report_error(self):
+        """Report this error."""
+        report_error(self.error_code, self.system_name, self.operation)
+
+
+    def __str__(self):
+        """Format the error as string.
+
+        Returns:
+        str -- error as a string
+        """
+        return "Error code: %d\nException: %s\nMessage: %s" % (
+            self.error_code,
+            self.exception_type,
+            self.error_message
+        )
+
+
+def report_error(self, status_code: int, system_name: str, operation: str):
     """Report an error from responses.
 
     Arguments:
@@ -37,6 +77,7 @@ class ArrowheadConnector(object):
 
     Attributes:
     server (ArrowheadServer) -- configuration of the Arrowhead Core server
+    last_error (Error) -- last received error
     """
 
     def __init__(self, server: ArrowheadServer):
@@ -44,6 +85,7 @@ class ArrowheadConnector(object):
         super(ArrowheadConnector, self).__init__()
 
         self.server = server
+        self.last_error = None
 
 
     def orchestrate(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[bool, int, Dict[str, any]]:
@@ -65,19 +107,19 @@ class ArrowheadConnector(object):
         success = status_code < 300
 
         if not success:
-            report_error(status_code, "Orchestrator", "orchestrate")
+            self.last_error = Error(**payload, system_name = "Orchestrator", operation = "orchestrate")
 
             return False, status_code, payload
 
         # List providers
-        print ("Found %d service providers." % len(payload["response"]))
+        #print ("Found %d service providers." % len(payload["response"]))
 
-        for _i, provider in enumerate(payload["response"]):
-            print ("%d: %s:%d" % (
-                _i + 1,
-                provider["provider"]["address"],
-                provider["provider"]["port"])
-            )
+        #for _i, provider in enumerate(payload["response"]):
+        #    print ("%d: %s:%d" % (
+        #        _i + 1,
+        #        provider["provider"]["address"],
+        #        provider["provider"]["port"])
+        #    )
 
         return True, status_code, payload
 
@@ -101,15 +143,15 @@ class ArrowheadConnector(object):
         success = status_code < 300
 
         if not success:
-            report_error(status_code, "Service Registry", "register service")
+            self.last_error = Error(**payload, system_name = "Service Registry", operation = "register service")
 
             return False, status_code, payload
 
-        print ("Service registered.\nInterface ID: %d\nProvider ID: %d\nService ID: %d" % (
-            payload["interfaces"][0]["id"],
-            payload["provider"]["id"],
-            payload["serviceDefinition"]["id"],
-        ))
+        #print ("Service registered.\nInterface ID: %d\nProvider ID: %d\nService ID: %d" % (
+        #    payload["interfaces"][0]["id"],
+        #    payload["provider"]["id"],
+        #    payload["serviceDefinition"]["id"],
+        #))
 
         return True, status_code, payload
 
@@ -133,7 +175,7 @@ class ArrowheadConnector(object):
         success = status_code < 300
 
         if not success:
-            report_error(status_code, "Service Registry", "unregister service")
+            self.last_error = Error(**payload, system_name = "Service Registry", operation = "unregister service")
 
             return False, status_code, payload
 
@@ -159,11 +201,11 @@ class ArrowheadConnector(object):
         success = status_code < 300
 
         if not success:
-            report_error(status_code, "Service Registry", "register system")
+            self.last_error = Error(**payload, system_name = "Service Registry", operation = "register system")
 
             return False, status_code, payload
 
-        print ("System registered with ID: %d." % text)
+        #print ("System registered with ID: %d." % payload["id"])
 
         return True, status_code, payload
 
