@@ -112,14 +112,14 @@ class ArrowheadConnector(object):
             return False, status_code, payload
 
         # List providers
-        print ("Found %d service providers." % len(payload["response"]))
+        #print ("Found %d service providers." % len(payload["response"]))
 
-        for _i, provider in enumerate(payload["response"]):
-            print ("%d: %s:%d" % (
-                _i + 1,
-                provider["provider"]["address"],
-                provider["provider"]["port"])
-            )
+        #for _i, provider in enumerate(payload["response"]):
+        #    print ("%d: %s:%d" % (
+        #        _i + 1,
+        #        provider["provider"]["address"],
+        #        provider["provider"]["port"])
+        #    )
 
         return True, status_code, payload
 
@@ -147,11 +147,11 @@ class ArrowheadConnector(object):
 
             return False, status_code, payload
 
-        print ("Service registered.\nInterface ID: %d\nProvider ID: %d\nService ID: %d" % (
-            payload["interfaces"][0]["id"],
-            payload["provider"]["id"],
-            payload["serviceDefinition"]["id"],
-        ))
+        #print ("Service registered.\nInterface ID: %d\nProvider ID: %d\nService ID: %d" % (
+        #    payload["interfaces"][0]["id"],
+        #    payload["provider"]["id"],
+        #    payload["serviceDefinition"]["id"],
+        #))
 
         return True, status_code, payload
 
@@ -205,7 +205,7 @@ class ArrowheadConnector(object):
 
             return False, status_code, payload
 
-        print ("System registered with ID: %d." % payload["id"])
+        #print ("System registered with ID: %d." % payload["id"])
 
         return True, status_code, payload
 
