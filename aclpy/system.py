@@ -3,6 +3,11 @@
 """Arrowhead system definition for the library.
 """
 
+from typing import List
+
+from aclpy.interface import ArrowheadInterface
+
+
 class ArrowheadSystem(object):
     """ArrowheadSystem class to store information about the system.
 
@@ -19,7 +24,7 @@ class ArrowheadSystem(object):
     Note: Timestamp is given as '%Y-%m-%d %H-%M-%S'.
     """
 
-    __slots__ = ["__name", "__address", "__port", "__pubkey", "__id", "__created_at", "__updated_at"]
+    __slots__ = ["__name", "__address", "__port", "__pubkey", "__id", "__created_at", "__updated_at", "__interfaces"]
 
     def __init__(self, *,
             name: str,
@@ -29,6 +34,7 @@ class ArrowheadSystem(object):
             id: int = -1,
             created_at: str = "",
             updated_at: str = "",
+            interfaces: List[ArrowheadInterface] = [],
     ):
         """Initialize ArrowheadSystem class."""
         super(ArrowheadSystem, self).__init__()
@@ -40,6 +46,7 @@ class ArrowheadSystem(object):
         self.__id = id
         self.__created_at = created_at
         self.__updated_at = updated_at
+        self.__interfaces = interfaces
 
 
     # Attributes RO
@@ -58,6 +65,10 @@ class ArrowheadSystem(object):
     @property
     def pubkey(self):
         return self.__pubkey
+
+    @property
+    def interfaces(self):
+        return self.__interfaces
 
 
     # Attributes RW
