@@ -18,8 +18,10 @@ class Error:
     error_code (int) -- HTTP error code
     exception_type (str) -- type of the exception raised from the Core
     error_message (str) -- description of the error
+    system_name (str) -- name of the system that sent the error
+    operation (str) -- short description of the operation done
     """
-    __slots__ = ["error_code", "exception_type", "error_message"]
+    __slots__ = ["error_code", "exception_type", "error_message", "system_name", "operation"]
 
 
     def __init__(self, **kwargs):
@@ -27,6 +29,8 @@ class Error:
         self.error_code = kwargs.get("errorCode")
         self.exception_type = kwargs.get("exceptionType")
         self.error_message = kwargs.get("errorMessage")
+        self.system_name = kwargs.get("system_name")
+        self.operation = kwargs.get("operation")
 
 
     def report_error(self):
