@@ -45,6 +45,9 @@ wagon install aclpy-*.wgn
     - [X] PKCS#12
 - [ ] ArrowheadInterface
   - [ ] Check validity of interface
+  - [X] Created at
+  - [X] Updated at
+  - [X] Id
 - [ ] ArrowheadServer
   - [X] Set IP address
   - [ ] Core Systems features
@@ -63,6 +66,9 @@ wagon install aclpy-*.wgn
   - [ ] URI
   - [ ] End of Validity
   - [ ] Metadata
+  - [X] Created at
+  - [X] Updated at
+  - [X] Id
 - [ ] ArrowheadSystem
   - [X] Name
   - [X] Address
@@ -70,6 +76,10 @@ wagon install aclpy-*.wgn
   - [ ] AuthenticationInfo
     - [X] Public key
     - [ ] Token
+  - [X] Created at
+  - [X] Updated at
+  - [X] Id
+  - [X] Interfaces
 
 
 ## Usage
