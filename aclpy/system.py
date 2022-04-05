@@ -40,3 +40,73 @@ class ArrowheadSystem(object):
         self.__id = id
         self.__created_at = created_at
         self.__updated_at = updated_at
+
+
+    # Attributes RO
+    @property
+    def name(self):
+        return self.__name
+
+    @property
+    def address(self):
+        return self.__address
+
+    @property
+    def port(self):
+        return self.__port
+
+    @property
+    def pubkey(self):
+        return self.__pubkey
+
+
+    # Attributes RW
+    @property
+    def id(self):
+        return self.__id
+
+    @id.setter
+    def id(self, new_id):
+        self.__id = new_id
+
+    @property
+    def created_at(self):
+        return self.__created_at
+
+    @created_at.setter
+    def created_at(self, new_value):
+        self.__created_at = new_value
+
+    @property
+    def updated_at(self):
+        return self.__updated_at
+
+    @updated_at.setter
+    def updated_at(self, new_value):
+        self.__updated_at = new_value
+
+
+    # Attributes AHCore
+    @property
+    def systemName(self):
+        return self.name
+
+    @property
+    def authenticationInfo(self):
+        return self.pubkey
+
+    @property
+    def createdAt(self):
+        return self.created_at
+
+    @createdAt.setter
+    def createdAt(self, new_value):
+        self.created_at = new_value
+
+    @property
+    def updatedAt(self):
+        return self.updated_at
+
+    @updatedAt.setter
+    def updatedAt(self, new_value):
+        self.updated_at = new_value
