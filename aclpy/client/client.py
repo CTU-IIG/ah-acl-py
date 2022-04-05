@@ -127,8 +127,11 @@ class ArrowheadClient(ArrowheadSystem):
                     ArrowheadSystem(
                         address = system.get("provider").get("address"),
                         port = system.get("provider").get("port"),
-                        name = system.get("provider").get("name"),
+                        name = system.get("provider").get("systemName"),
                         pubkey = system.get("provider").get("authenticationInfo"),
+                        id = system.get("provider").get("id"),
+                        created_at = system.get("provider").get("createdAt"),
+                        updated_at = system.get("provider").get("updatedAt"),
                     ) for system in payload.get("response")
                 ])
 
