@@ -54,6 +54,9 @@ class ArrowheadClient(ArrowheadSystem):
 
         success, status_code, payload = self.connector.register_service(self, msg)
 
+        if success:
+            self.update(**payload.get("provider"))
+
         return success
 
 
