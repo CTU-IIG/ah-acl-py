@@ -58,6 +58,11 @@ class ArrowheadClient(ArrowheadSystem):
             self.update(**payload.get("provider"))
             service.update(**payload.get("serviceDefinition"))
 
+            for interface in self.interfaces:
+                for _interface in payload.get("interfaces"):
+                    if interface.name == _interface.get("interfaceName"):
+                        interface.update(**_interface)
+
         return success
 
 
