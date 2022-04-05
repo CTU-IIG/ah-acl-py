@@ -3,8 +3,11 @@
 """Arrowhead Client class using .p12 certificates.
 """
 
+from typing import List
+
 from aclpy.client.client import ArrowheadClient as ArrowheadClientBase
 from aclpy.connector.connector_pkcs12 import ArrowheadConnector
+from aclpy.interface import ArrowheadInterface
 from aclpy.server import ArrowheadServer
 
 
@@ -17,6 +20,7 @@ class ArrowheadClient(ArrowheadClientBase):
     pubfile (str) -- path to the public key .pub
     cafile (str) -- path to the certificate authority file .ca
     server (ArrowheadServer) -- configuration of the Arrowhead Core server
+    interfaces (List[ArrowheadInterfaces]) -- list of available interfaces, [] by default
     """
 
     def __init__(self, *,
@@ -27,7 +31,8 @@ class ArrowheadClient(ArrowheadClientBase):
             p12pass: str,
             pubfile: str,
             cafile: str,
-            server: ArrowheadServer
+            server: ArrowheadServer,
+            interfaces: List[ArrowheadInterface] = [],
     ):
         """Initialize ArrowheadClient class."""
         # Read pubkey first
@@ -42,3 +47,6 @@ class ArrowheadClient(ArrowheadClientBase):
         self.p12pass = p12pass
         self.pubfile = pubfile
         self.cafile = cafile
+
+        for interface in interfaces:
+            self.interfaces.append(interface)
