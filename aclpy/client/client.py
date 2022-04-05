@@ -47,7 +47,7 @@ class ArrowheadClient(ArrowheadSystem):
         success (bool) -- True when registration is successful
         """
         msg = build_register_service(
-            interface = "HTTP-INSECURE-JSON",
+            interfaces = self.interfaces,
             system = self,
             service = service
         )
@@ -107,7 +107,7 @@ class ArrowheadClient(ArrowheadSystem):
         providers (List[ArrowheadSystem]) -- list of available providers
         """
         msg = build_orchestration_request(
-            interface = "HTTP-INSECURE-JSON",
+            interfaces = self.interfaces,
             system = self,
             service = service
         )
