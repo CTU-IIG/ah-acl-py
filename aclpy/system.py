@@ -110,3 +110,13 @@ class ArrowheadSystem(object):
     @updatedAt.setter
     def updatedAt(self, new_value):
         self.updated_at = new_value
+
+
+
+    def update(self, **message):
+        """Update the system information using data received from the Arrowhead Core."""
+        for key, value in message.items():
+            try:
+                setattr(self, key, value)
+            except AttributeError:
+                pass
