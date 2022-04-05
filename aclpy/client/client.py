@@ -56,6 +56,7 @@ class ArrowheadClient(ArrowheadSystem):
 
         if success:
             self.update(**payload.get("provider"))
+            service.update(**payload.get("serviceDefinition"))
 
         return success
 
