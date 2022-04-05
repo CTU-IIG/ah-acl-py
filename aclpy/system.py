@@ -19,7 +19,7 @@ class ArrowheadSystem(object):
     Note: Timestamp is given as '%Y-%m-%d %H-%M-%S'.
     """
 
-    __slots__ = ["name", "address", "port", "pubkey", "id", "created_at", "updated_at"]
+    __slots__ = ["__name", "__address", "__port", "__pubkey", "__id", "__created_at", "__updated_at"]
 
     def __init__(self, *,
             name: str,
@@ -33,10 +33,10 @@ class ArrowheadSystem(object):
         """Initialize ArrowheadSystem class."""
         super(ArrowheadSystem, self).__init__()
 
-        self.name = name
-        self.address = address
-        self.port = port
-        self.pubkey = pubkey
-        self.id = id
-        self.created_at = created_at
-        self.updated_at = updated_at
+        self.__name = name
+        self.__address = address
+        self.__port = port
+        self.__pubkey = pubkey
+        self.__id = id
+        self.__created_at = created_at
+        self.__updated_at = updated_at
