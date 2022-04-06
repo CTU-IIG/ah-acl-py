@@ -137,3 +137,33 @@ class ArrowheadClient(ArrowheadSystem):
 
             else:
                 return (True, [])
+
+
+    def obtain_id(self, service_name: str = "dummy") -> bool:
+        """Obtain the ID of this client.
+
+        Arguments:
+        service_name (str) -- name of the service used to obtain system id, dummy by default
+
+        Returns:
+        success (bool) -- True when id was successfully received
+        """
+
+        service = ArrowheadService(
+            name = service_name
+        )
+
+        # Register a service
+        success = self.register_service(service)
+
+        # If not successful, we try to unregister service first.
+        if not success:
+            if not self.unregister_service(service):
+                return False
+
+            success = self.register_service(service)
+
+        # Clean after ourselves.
+        self.unregister_service(service)
+
+        return success and self.id >= 0
