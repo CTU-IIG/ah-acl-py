@@ -34,6 +34,7 @@ class ArrowheadConnector(ArrowheadConnectorBase):
             pkcs12_filename = system.p12file,
             pkcs12_password = system.p12pass,
             verify = system.cafile,
+            timeout = self.timeout,
         )
 
         return (res.status_code, res.json())
@@ -58,6 +59,7 @@ class ArrowheadConnector(ArrowheadConnectorBase):
             pkcs12_filename = system.p12file,
             pkcs12_password = system.p12pass,
             verify = system.cafile,
+            timeout = self.timeout,
         )
 
         return (res.status_code, res.json())
@@ -85,6 +87,7 @@ class ArrowheadConnector(ArrowheadConnectorBase):
             pkcs12_filename = system.p12file,
             pkcs12_password = system.p12pass,
             verify = system.cafile,
+            timeout = self.timeout,
         )
 
         return (res.status_code, {})
@@ -109,6 +112,7 @@ class ArrowheadConnector(ArrowheadConnectorBase):
             pkcs12_filename = system.p12file,
             pkcs12_password = system.p12pass,
             verify = system.cafile,
+            timeout = self.timeout,
         )
 
         return (res.status_code, res.json())

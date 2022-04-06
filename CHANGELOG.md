@@ -7,6 +7,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Added
 - `ArrowheadClient`
   - Function `obtain_id` to obtain client ID using dummy service workaround.
+- `ArrowheadConnector`
+  - Attribute `timeout` for setting the timeout on the requests.
 
 ## 0.1.0 - 2022-04-05
 ### Added
