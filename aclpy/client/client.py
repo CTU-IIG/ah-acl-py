@@ -8,6 +8,7 @@ import json
 from typing import Tuple, List
 
 from aclpy.connector.connector import ArrowheadConnector
+from aclpy.interface import ArrowheadInterface
 from aclpy.messages import *
 from aclpy.service import ArrowheadService
 from aclpy.system import ArrowheadSystem
@@ -101,7 +102,7 @@ class ArrowheadClient(ArrowheadSystem):
         return success
 
 
-    def orchestrate(self, service: ArrowheadService) -> Tuple[bool, List[ArrowheadSystem]]:
+    def orchestrate(self, service: ArrowheadService) -> Tuple[bool, List[Dict[str, any]]]:
         """Use Core Orchestrator to locate providers of the required 'service'.
 
         Arguments:
@@ -109,7 +110,7 @@ class ArrowheadClient(ArrowheadSystem):
 
         Returns:
         success (bool) -- True when registration is successful
-        providers (List[ArrowheadSystem]) -- list of available providers
+        matches (List[Dict[str, (ArrowheadSystem, ArrowheadService)]]) -- list of available providers
         """
         msg = build_orchestration_request(
             interfaces = self.interfaces,
@@ -123,8 +124,8 @@ class ArrowheadClient(ArrowheadSystem):
             return (False, [])
         else:
             if len(payload.get("response")) > 0:
-                return (True, [
-                    ArrowheadSystem(
+                return (True, [{
+                    "provider": ArrowheadSystem(
                         address = system.get("provider").get("address"),
                         port = system.get("provider").get("port"),
                         name = system.get("provider").get("systemName"),
@@ -132,7 +133,24 @@ class ArrowheadClient(ArrowheadSystem):
                         id = system.get("provider").get("id"),
                         created_at = system.get("provider").get("createdAt"),
                         updated_at = system.get("provider").get("updatedAt"),
-                    ) for system in payload.get("response")
+                        interfaces = [
+                            ArrowheadInterface(
+                                name = _interface.get("interfaceName"),
+                                id = _interface.get("id"),
+                                created_at = _interface.get("createdAt"),
+                                updated_at = _interface.get("updatedAt"),
+                            ) for _interface in system.get("interfaces")
+                        ],
+                    ),
+                    "service": ArrowheadService(
+                        name = system.get("service").get("serviceDefinition"),
+                        id = system.get("service").get("id"),
+                        version = system.get("version"),
+                        metadata = system.get("metadata"),
+                        created_at = system.get("service").get("createdAt"),
+                        updated_at = system.get("service").get("updatedAt"),
+                    )
+                    } for system in payload.get("response")
                 ])
 
             else:

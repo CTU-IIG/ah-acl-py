@@ -15,6 +15,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 - `ArrowheadService`
   - Now also contains optional metadata.
 
+### Changed
+- `ArrowheadClient`
+  - Slightly reworked `orchestrate`.
+    - Function returns list of dicts. Dicts contain `provider` and `service`.
+    - Providers contain information about interfaces.
+
 ## 0.1.0 - 2022-04-05
 ### Added
 - `ArrowheadInterface`
