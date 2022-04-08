@@ -17,7 +17,8 @@ class ArrowheadClient(ArrowheadClientBase):
     Additional attributes:
     p12file (str) -- path to the .p12 certificate
     p12pass (str) -- password to the .p12 certificate
-    pubfile (str) -- path to the public key .pub
+    pubkey (str) -- public key, mutually exclusive with 'pubfile'
+    pubfile (str) -- path to the public key .pub, mutually exclusive with 'pubkey'
     cafile (str) -- path to the certificate authority file .ca
     server (ArrowheadServer) -- configuration of the Arrowhead Core server
     interfaces (List[ArrowheadInterfaces]) -- list of available interfaces, [] by default
@@ -29,15 +30,21 @@ class ArrowheadClient(ArrowheadClientBase):
             port: int,
             p12file: str,
             p12pass: str,
-            pubfile: str,
+            pubkey: str = None,
+            pubfile: str = None,
             cafile: str,
             server: ArrowheadServer,
             interfaces: List[ArrowheadInterface] = [],
     ):
         """Initialize ArrowheadClient class."""
-        # Read pubkey first
-        with open(pubfile, "r") as f:
-            pubkey = f.read()
+        if pubkey is not None and pubfile is not None:
+            raise ValueError("Conflict betwen pubkey and pubfile. Provide only one of them.")
+
+        if pubfile is not None:
+            # Read pubkey first
+            with open(pubfile, "r") as f:
+                pubkey = f.read()
+
 
         self.connector = ArrowheadConnector(server)
 
