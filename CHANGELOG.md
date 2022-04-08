@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## Unreleased
+## 0.2.0 - 2022-04-08
+### Added
+- `ArrowheadClient`
+  - Function `obtain_id` to obtain client ID using dummy service workaround.
+  - `PKCS#12`
+    - Argument `pubkey` to provide the client the public key directly.
+    - When `pubkey` and `pubfile` are not given, public key is obtained from the private key.
+- `ArrowheadConnector`
+  - Attribute `timeout` for setting the timeout on the requests.
+- `ArrowheadService`
+  - Now also contains optional metadata.
+
+### Changed
+- `ArrowheadClient`
+  - Slightly reworked `orchestrate`.
+    - Function returns list of dicts. Dicts contain `provider` and `service`.
+    - Providers contain information about interfaces.
+
 ## 0.1.0 - 2022-04-05
 ### Added
 - `ArrowheadInterface`

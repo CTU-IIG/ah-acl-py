@@ -78,6 +78,7 @@ class ArrowheadConnector(object):
     Attributes:
     server (ArrowheadServer) -- configuration of the Arrowhead Core server
     last_error (Error) -- last received error
+    timeout (int) -- timeout limit for requests
     """
 
     def __init__(self, server: ArrowheadServer):
@@ -86,6 +87,7 @@ class ArrowheadConnector(object):
 
         self.server = server
         self.last_error = None
+        self.timeout = None
 
 
     def orchestrate(self, system: ArrowheadSystem, message: Dict[str, any]) -> Tuple[bool, int, Dict[str, any]]:
