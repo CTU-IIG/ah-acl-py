@@ -3,6 +3,9 @@
 """Arrowhead service definition for the library.
 """
 
+from typing import Dict
+
+
 class ArrowheadService(object):
     """ArrowheadService class to store configuration about a service.
 
@@ -12,11 +15,12 @@ class ArrowheadService(object):
     id (int) -- identification number of the service, default -1 (not known)
     created_at (str) -- timestamp of service creation, default ""
     updated_at (str) -- timestamp of the last service update, default ""
+    metadata (Dict[str, any]) -- additional information about the service
 
     Note: Timestamp is given as '%Y-%m-%d %H-%M-%S'.
     """
 
-    __slots__ = ["__name", "__version", "__id", "__created_at", "__updated_at"]
+    __slots__ = ["__name", "__version", "__id", "__created_at", "__updated_at", "__metadata"]
 
     def __init__(self, *,
             name: str,
@@ -24,6 +28,7 @@ class ArrowheadService(object):
             id: int = -1,
             created_at: str = "",
             updated_at: str = "",
+            metadata: Dict[str, any] = {},
     ):
         """Initialize ArrowheadService class."""
         super(ArrowheadService, self).__init__()
@@ -33,6 +38,7 @@ class ArrowheadService(object):
         self.__id = id
         self.__created_at = created_at
         self.__updated_at = updated_at
+        self.__metadata = metadata
 
 
     # Attributes RO
@@ -70,6 +76,14 @@ class ArrowheadService(object):
     def updated_at(self, new_value: str):
         self.__updated_at = new_value
 
+    @property
+    def metadata(self):
+        return self.__metadata
+
+    @metadata.setter
+    def metadata(self, new_value):
+        self.__metadata = new_value
+
 
     # Attributes AHCore
     @property
@@ -92,6 +106,10 @@ class ArrowheadService(object):
     def updatedAt(self, new_value: str):
         self.updated_at = new_value
 
+
+    # Has attributes
+    def has_metadata(self):
+        return len(self.metadata) != 0
 
 
     def update(self, **message):

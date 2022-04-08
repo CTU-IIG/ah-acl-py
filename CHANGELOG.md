@@ -12,6 +12,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
     - When `pubkey` and `pubfile` are not given, public key is obtained from the private key.
 - `ArrowheadConnector`
   - Attribute `timeout` for setting the timeout on the requests.
+- `ArrowheadService`
+  - Now also contains optional metadata.
 
 ## 0.1.0 - 2022-04-05
 ### Added
