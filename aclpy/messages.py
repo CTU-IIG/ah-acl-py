@@ -25,7 +25,7 @@ def build_register_service(*,
     Returns:
     message (Dict[str, any])
     """
-    return {
+    return {**{
         # *Which interface do we use?
         # The convention (name pattern is) PROTOCOL-SECURE/INSECURE-DATA_FORMAT
         # I assume that SECURE = encrypted by the TOKEN/CERTIFICATE
@@ -65,11 +65,13 @@ def build_register_service(*,
 
         # Service is available until this UTC timestamp
         # "endOfValidity": "string",
-
+    }, **({} if not service.has_metadata() else {
         # Various optional metadata
         # "metadata": {
         #     "additionalProperty1": "string",
         # },
+        "metadata": service.metadata
+    }),
     }
 
 
