@@ -61,7 +61,7 @@ class ArrowheadClient(ArrowheadClientBase):
 
         self.connector = ArrowheadConnector(server)
 
-        super(ArrowheadClient, self).__init__(name, address, port, pubkey.replace("\n", ""), self.connector)
+        super(ArrowheadClient, self).__init__(name, address, port, str(pubkey).replace("\n", ""), self.connector)
 
         self.p12file = p12file
         self.p12pass = p12pass
