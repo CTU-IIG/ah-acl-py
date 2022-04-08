@@ -125,7 +125,10 @@ client = ArrowheadClient(
     name = "NAME_OF_THE_CLIENT",
     address = "IP_ADDRESS_OF_THE_CLIENT",
     port = PORT_OF_THE_CLIENT,
-    pubfile = "PATH_TO_THE_PUB_FILE",
+    # Public key; choose one:
+    # pubfile = "PATH_TO_THE_PUB_FILE",     # Method a)
+    # pubkey = "....................",      # Method b)
+    # Or skip both to obtain it from p12    # Method c)
     p12file = "PATH_TO_THE_P12_FILE",
     p12pass = "PASSWORD_TO_P12_FILE",
     cafile = "PATH_TO_THE_CA_FILE",
