@@ -7,6 +7,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Added
 - `ArrowheadClient`
   - Function `obtain_id` to obtain client ID using dummy service workaround.
+  - `PKCS#12`
+    - Argument `pubkey` to provide the client the public key directly.
+    - When `pubkey` and `pubfile` are not given, public key is obtained from the private key.
 - `ArrowheadConnector`
   - Attribute `timeout` for setting the timeout on the requests.
 
