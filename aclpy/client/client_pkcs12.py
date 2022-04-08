@@ -22,6 +22,8 @@ class ArrowheadClient(ArrowheadClientBase):
     cafile (str) -- path to the certificate authority file .ca
     server (ArrowheadServer) -- configuration of the Arrowhead Core server
     interfaces (List[ArrowheadInterfaces]) -- list of available interfaces, [] by default
+
+    Note: When pub* are not given, the public key is obtained from p12 file.
     """
 
     def __init__(self, *,
@@ -44,6 +46,17 @@ class ArrowheadClient(ArrowheadClientBase):
             # Read pubkey first
             with open(pubfile, "r") as f:
                 pubkey = f.read()
+
+        if pubkey is None:
+            from OpenSSL import crypto
+
+            pubkey = crypto.dump_publickey(
+                crypto.FILETYPE_PEM,
+                crypto.load_pkcs12(
+                    open(p12file, "rb").read(),
+                    p12pass
+                ).get_certificate().get_pubkey()
+            )
 
 
         self.connector = ArrowheadConnector(server)
